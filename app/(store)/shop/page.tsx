@@ -122,16 +122,16 @@ export default async function ShopPage({
                   : null;
 
                 return (
-                  <div key={product._id} className="group relative">
+                  <div key={product._id} className="group relative overflow-hidden rounded-lg border bg-white">
                     {/* Product Image */}
                     <Link href={`/shop/${product.slug.current}`}>
-                      <div className="relative aspect-square overflow-hidden rounded-lg bg-white">
+                      <div className="relative aspect-square overflow-hidden bg-white">
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
                             alt={product.name}
                             fill
-                            className="object-contain p-2 transition group-hover:scale-105"
+                            className="object-contain p-4 transition group-hover:scale-105"
                           />
                         ) : (
                           <div className="flex h-full items-center justify-center text-gray-300">
@@ -145,31 +145,46 @@ export default async function ShopPage({
                             </span>
                           </div>
                         )}
+
+                        {/* Quick View overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 translate-y-full bg-gray-800/80 py-2 text-center text-sm font-medium text-white transition-transform duration-300 group-hover:translate-y-0">
+                          QUICK VIEW
+                        </div>
                       </div>
                     </Link>
 
-                    {/* Add Button */}
+                    {/* Hover Add to Cart - below product info */}
                     {product.inStock && (
-                      <div className="absolute right-2 top-2">
-                        <AddToCartButton
-                          product={{
-                            id: product._id,
-                            name: product.name,
-                            price: product.salePrice || product.price,
-                            image: imageUrl || "",
-                            slug: product.slug.current,
-                          }}
-                          variant="icon"
-                        />
+                      <div className="max-h-0 overflow-hidden border-t-0 transition-all duration-300 group-hover:max-h-14 group-hover:border-t">
+                        <div className="flex items-center justify-center px-3 py-2">
+                          <AddToCartButton
+                            product={{
+                              id: product._id,
+                              name: product.name,
+                              price: product.salePrice || product.price,
+                              image: imageUrl || "",
+                              slug: product.slug.current,
+                            }}
+                            variant="full"
+                          />
+                        </div>
                       </div>
                     )}
 
                     {/* Product Info */}
-                    <Link href={`/shop/${product.slug.current}`} className="mt-3 block">
-                      <div className="flex items-center gap-2">
+                    <Link href={`/shop/${product.slug.current}`} className="block p-3">
+                      {product.category && (
+                        <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                          {product.category.name}
+                        </p>
+                      )}
+                      <h3 className="mt-1 text-sm font-bold text-gray-900">
+                        {product.name}
+                      </h3>
+                      <div className="mt-2 flex items-center gap-2">
                         {product.salePrice ? (
                           <>
-                            <span className="text-base font-bold text-red-600">
+                            <span className="text-base font-bold text-primary">
                               ${product.salePrice.toFixed(2)}
                             </span>
                             <span className="text-sm text-gray-400 line-through">
@@ -177,7 +192,7 @@ export default async function ShopPage({
                             </span>
                           </>
                         ) : (
-                          <span className="text-base font-bold text-gray-900">
+                          <span className="text-base font-bold text-primary">
                             ${product.price.toFixed(2)}
                           </span>
                         )}
@@ -187,9 +202,6 @@ export default async function ShopPage({
                           SAVE ${(product.price - product.salePrice).toFixed(2)}
                         </p>
                       )}
-                      <h3 className="mt-1 text-sm font-medium text-gray-900">
-                        {product.name}
-                      </h3>
                     </Link>
                   </div>
                 );

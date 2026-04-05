@@ -2,6 +2,7 @@
 
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CartPage() {
   const { items, subtotal, removeItem, updateQuantity, clearCart } = useCart();
@@ -30,9 +31,24 @@ export default function CartPage() {
             key={item.id}
             className="flex items-center justify-between rounded-lg border p-4"
           >
-            <div>
-              <h3 className="font-semibold">{item.name}</h3>
-              <p className="text-gray-600">${item.price.toFixed(2)}</p>
+            <div className="flex items-center gap-4">
+              {item.image && (
+                <Link href={`/shop/${item.slug}`} className="shrink-0">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                    className="rounded-lg object-contain"
+                  />
+                </Link>
+              )}
+              <div>
+                <Link href={`/shop/${item.slug}`} className="font-semibold hover:text-primary">
+                  {item.name}
+                </Link>
+                <p className="text-gray-600">${item.price.toFixed(2)}</p>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <select

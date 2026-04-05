@@ -40,7 +40,7 @@ export default function AddToCartButton({
     <button
       onClick={() => addItem({ ...product, quantity: 1 })}
       disabled={!inStock}
-      className="rounded-lg bg-primary px-8 py-3 font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+      className="rounded bg-primary px-6 py-2 text-sm font-bold uppercase text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {inStock ? "Add to Cart" : "Out of Stock"}
     </button>

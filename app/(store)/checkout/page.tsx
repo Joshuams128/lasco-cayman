@@ -2,6 +2,7 @@
 
 import { useCart } from "@/context/CartContext";
 import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
@@ -33,12 +34,23 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex justify-between rounded-lg border p-4"
+                className="flex items-center justify-between rounded-lg border p-4"
               >
-                <span>
-                  {item.name} x {item.quantity}
-                </span>
-                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                <div className="flex items-center gap-4">
+                  {item.image && (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={60}
+                      height={60}
+                      className="rounded-lg object-contain"
+                    />
+                  )}
+                  <span>
+                    {item.name} x {item.quantity}
+                  </span>
+                </div>
+                <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>

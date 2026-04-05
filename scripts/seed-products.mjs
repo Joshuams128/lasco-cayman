@@ -13,36 +13,37 @@ const client = createClient({
 const IMAGES_DIR = resolve("public/images/product-imgs");
 
 const products = [
-  {
-    name: "Lasco Baked Bean 400g (6 cans)",
-    price: 6.72,
-    image: "Baked-Beans-Mockup.png",
-    category: "Canned Beans & Peas",
-  },
-  {
-    name: "Lasco Broad Bean 400g (6 cans)",
-    price: 7.0,
-    image: "Broad-Bean.jpg",
-    category: "Canned Beans & Peas",
-  },
-  {
-    name: "Lasco Butter Bean 400g (6 cans)",
-    price: 7.0,
-    image: "Lasco-Butter-Beans.jpg",
-    category: "Canned Beans & Peas",
-  },
-  {
-    name: "Lasco Green Peas",
-    price: 9.0,
-    image: "Green-Peas.jpg",
-    category: "Canned Beans & Peas",
-  },
-  {
-    name: "Lasco Gungo Peas",
-    price: 11.0,
-    image: "pigeon peas.jpg",
-    category: "Canned Beans & Peas",
-  },
+  // Canned Vegetables
+  { name: "Lasco Ackee 10 ozs (3 cans)", price: 17.00, category: "Canned Vegetables" },
+  { name: "Lasco Mixed Vegetable 400g (6 cans)", price: 10.00, image: "Mixed-Vegetables.jpg", category: "Canned Vegetables" },
+  { name: "Lasco Sweet Corn 400g (6 cans)", price: 11.00, image: "Sweet-Corn.jpg", category: "Canned Vegetables" },
+
+  // Lasco Food Drink
+  { name: "Lasco Food Drink - Creamy Malt 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasco Food Drink - Peanut Punch 120g (6 cans)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasco Food Drink - Strawberry 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasco Food Drink - Vanilla 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasco Irish Moss - Oats 10ozs (6 cans)", price: 13.00, category: "Lasco Food Drink" },
+  { name: "Lasoy Milk Free - Original 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasoy Milk Free - Strawberry 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+  { name: "Lasoy Milk Free - Malt 120g (6 packs)", price: 8.00, category: "Lasco Food Drink" },
+
+  // Juices and Water
+  { name: "ICOOL Juice Drink - Apple 500ml (6 bottles)", price: 4.00, category: "Juices and Water" },
+  { name: "ICOOL Juice Drink - Fruit Punch 500ml (6 bottles)", price: 4.00, category: "Juices and Water" },
+  { name: "ICOOL Juice Drink - Grape 500ml (6 bottles)", price: 4.00, category: "Juices and Water" },
+  { name: "ICOOL Juice Drink - Mellon Berry 500ml (6 bottles)", price: 4.00, category: "Juices and Water" },
+  { name: "ICOOL Juice Drink - Passion Fruit 500ml (6 bottles)", price: 4.00, inStock: false, category: "Juices and Water" },
+  { name: "ICOOL Juice Drink - Tangerine 500ml (6 bottles)", price: 4.00, inStock: false, category: "Juices and Water" },
+  { name: "Lasco ICOOL Water 600ml (24 bottles)", price: 5.00, inStock: false, category: "Juices and Water" },
+  { name: "Lasco Water 6 Litre (4 bottles)", price: 10.00, category: "Juices and Water" },
+
+  // Syrups and Canned Beverages
+  { name: "Lasco Irish Moss - Peanut 10ozs (6 cans)", price: 14.00, category: "Syrups and Canned Beverages" },
+  { name: "Lasco Irish Moss - Vanilla 10ozs (6 cans)", price: 13.00, category: "Syrups and Canned Beverages" },
+  { name: "Lasco Syrup - Cherry 750ml (6 bottles)", price: 11.00, category: "Syrups and Canned Beverages" },
+  { name: "Lasco Syrup - Kola Champaigne 750ml (6 bottles)", price: 11.00, category: "Syrups and Canned Beverages" },
+  { name: "Lasco Syrup - Strawberry 750ml (6 bottles)", price: 11.00, category: "Syrups and Canned Beverages" },
 ];
 
 function slugify(text) {
@@ -52,13 +53,19 @@ function slugify(text) {
     .replace(/(^-|-$)/g, "");
 }
 
+const categoryCache = {};
+
 async function getOrCreateCategory(name) {
+  if (categoryCache[name]) return categoryCache[name];
   const slug = slugify(name);
   const existing = await client.fetch(
     `*[_type == "category" && slug.current == $slug][0]`,
     { slug }
   );
-  if (existing) return existing._id;
+  if (existing) {
+    categoryCache[name] = existing._id;
+    return existing._id;
+  }
 
   const created = await client.create({
     _type: "category",
@@ -66,15 +73,14 @@ async function getOrCreateCategory(name) {
     slug: { _type: "slug", current: slug },
   });
   console.log(`  Created category: ${name}`);
+  categoryCache[name] = created._id;
   return created._id;
 }
 
 async function uploadImage(filename) {
   const filePath = resolve(IMAGES_DIR, filename);
   const buffer = readFileSync(filePath);
-  const asset = await client.assets.upload("image", buffer, {
-    filename,
-  });
+  const asset = await client.assets.upload("image", buffer, { filename });
   console.log(`  Uploaded image: ${filename}`);
   return asset._id;
 }
@@ -85,7 +91,6 @@ async function seed() {
   for (const product of products) {
     const slug = slugify(product.name);
 
-    // Check if product already exists
     const existing = await client.fetch(
       `*[_type == "product" && slug.current == $slug][0]`,
       { slug }
@@ -95,34 +100,34 @@ async function seed() {
       continue;
     }
 
-    // Get or create category
     const categoryId = await getOrCreateCategory(product.category);
 
-    // Upload image
-    const imageAssetId = await uploadImage(product.image);
-
-    // Create product
-    await client.create({
+    const doc = {
       _type: "product",
       name: product.name,
       slug: { _type: "slug", current: slug },
       price: product.price,
       category: { _type: "reference", _ref: categoryId },
-      images: [
+      inStock: product.inStock !== undefined ? product.inStock : true,
+      featured: false,
+    };
+
+    if (product.image) {
+      const imageAssetId = await uploadImage(product.image);
+      doc.images = [
         {
           _type: "image",
           _key: "img0",
           asset: { _type: "reference", _ref: imageAssetId },
         },
-      ],
-      inStock: true,
-      featured: false,
-    });
+      ];
+    }
 
-    console.log(`Created: ${product.name}`);
+    await client.create(doc);
+    console.log(`Created: ${product.name}${product.image ? "" : " (no image)"}`);
   }
 
-  console.log("\nDone! All products seeded.");
+  console.log("\nDone!");
 }
 
 seed().catch(console.error);

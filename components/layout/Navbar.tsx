@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { useCart } from "@/context/CartContext";
 
@@ -11,8 +12,8 @@ export default function Navbar() {
   return (
     <header className="border-b bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        <Link href="/" className="text-2xl font-bold text-primary">
-          LASCO Cayman
+        <Link href="/" className="flex items-center">
+          <Image src="/images/logo.png" alt="LASCO Cayman" width={150} height={150} />
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">

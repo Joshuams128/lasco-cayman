@@ -28,46 +28,58 @@ export default async function HomePage() {
     <div>
       <HeroSlider />
 
-      <section className="mx-auto max-w-7xl px-4 py-16">
-        <h2 className="mb-8 text-3xl font-bold">Featured Products</h2>
+      <section className="mx-auto max-w-7xl px-4 py-12">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Featured Products</h2>
+          <Link href="/shop" className="text-sm font-medium text-primary hover:underline">
+            Shop all
+          </Link>
+        </div>
         {featured.length === 0 ? (
           <p className="text-gray-500">No featured products yet.</p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {featured.map((product) => (
               <Link
                 key={product._id}
                 href={`/shop/${product.slug.current}`}
-                className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-lg"
+                className="group"
               >
-                <div className="relative aspect-square bg-accent">
+                <div className="relative h-40 overflow-hidden rounded-lg bg-white">
                   {product.images?.[0] && (
                     <Image
-                      src={urlFor(product.images[0]).width(400).height(400).url()}
+                      src={urlFor(product.images[0]).width(200).height(200).url()}
                       alt={product.name}
                       fill
-                      className="object-cover transition group-hover:scale-105"
+                      className="object-contain p-3 transition group-hover:scale-105"
                     />
                   )}
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold">{product.name}</h3>
-                  <div className="mt-2 flex items-center gap-2">
+                <div className="mt-2">
+                  <div className="flex items-center gap-2">
                     {product.salePrice ? (
                       <>
-                        <span className="text-lg font-bold text-primary">
+                        <span className="text-sm font-bold text-gray-900">
                           ${product.salePrice.toFixed(2)}
                         </span>
-                        <span className="text-sm text-gray-400 line-through">
+                        <span className="text-xs text-gray-400 line-through">
                           ${product.price.toFixed(2)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-lg font-bold text-primary">
+                      <span className="text-sm font-bold text-gray-900">
                         ${product.price.toFixed(2)}
                       </span>
                     )}
                   </div>
+                  {product.salePrice && (
+                    <p className="text-xs font-semibold text-red-600">
+                      SAVE ${(product.price - product.salePrice).toFixed(2)}
+                    </p>
+                  )}
+                  <h3 className="mt-1 text-xs font-medium text-gray-900 line-clamp-2">
+                    {product.name}
+                  </h3>
                 </div>
               </Link>
             ))}

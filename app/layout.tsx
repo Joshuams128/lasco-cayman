@@ -18,6 +18,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "LASCO Cayman",
   description: "LASCO Cayman - Your one-stop shop",
+  icons: {
+    icon: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({

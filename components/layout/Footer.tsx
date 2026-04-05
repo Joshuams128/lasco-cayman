@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
-            <h3 className="text-lg font-bold text-primary">LASCO Cayman</h3>
+            <Image src="/images/logo.png" alt="LASCO Cayman" width={150} height={150} />
             <p className="mt-2 text-sm text-gray-600">
               Your one-stop shop in the Cayman Islands.
             </p>

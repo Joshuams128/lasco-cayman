@@ -16,25 +16,25 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
-          <Link href="/shop" className="hover:text-primary">
+          <Link href="/shop" className="text-black hover:text-primary">
             Shop
           </Link>
-          <Link href="/about" className="hover:text-primary">
+          <Link href="/about" className="text-black hover:text-primary">
             About
           </Link>
-          <Link href="/blog" className="hover:text-primary">
+          <Link href="/blog" className="text-black hover:text-primary">
             Blog
           </Link>
-          <Link href="/store-list" className="hover:text-primary">
+          <Link href="/store-list" className="text-black hover:text-primary">
             Stores
           </Link>
-          <Link href="/faq" className="hover:text-primary">
+          <Link href="/faq" className="text-black hover:text-primary">
             FAQ
           </Link>
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/cart" className="relative hover:text-primary">
+          <Link href="/cart" className="relative text-black hover:text-primary">
             Cart
             {itemCount > 0 && (
               <span className="absolute -right-3 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
@@ -43,13 +43,13 @@ export default function Navbar() {
             )}
           </Link>
 
-          <Link href="/wishlist" className="hover:text-primary">
+          <Link href="/wishlist" className="text-black hover:text-primary">
             Wishlist
           </Link>
 
           {isSignedIn ? (
             <>
-              <Link href="/my-account" className="hover:text-primary">
+              <Link href="/my-account" className="text-black hover:text-primary">
                 Account
               </Link>
               <UserButton />

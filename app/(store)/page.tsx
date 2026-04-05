@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
 import Link from "next/link";
 import Image from "next/image";
+import HeroSlider from "@/components/home/HeroSlider";
 
 interface Product {
   _id: string;
@@ -25,16 +26,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="bg-primary py-20 text-center text-white">
-        <h1 className="text-5xl font-bold">Welcome to LASCO Cayman</h1>
-        <p className="mt-4 text-xl">Your one-stop shop in the Cayman Islands</p>
-        <Link
-          href="/shop"
-          className="mt-8 inline-block rounded-lg bg-white px-8 py-3 font-semibold text-primary hover:bg-gray-100"
-        >
-          Shop Now
-        </Link>
-      </section>
+      <HeroSlider />
 
       <section className="mx-auto max-w-7xl px-4 py-16">
         <h2 className="mb-8 text-3xl font-bold">Featured Products</h2>

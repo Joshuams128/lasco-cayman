@@ -14,10 +14,11 @@ export default function CheckoutPage() {
   // - Clear cart on success
 
   const handleCheckout = async () => {
-    // TODO: Implement checkout flow
+    // TODO: Implement full checkout flow
     console.log("Checkout for user:", user?.id);
     console.log("Items:", items);
     console.log("Subtotal:", subtotal);
+    clearCart();
   };
 
   return (

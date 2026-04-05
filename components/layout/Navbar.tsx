@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const { itemCount } = useCart();
+  const { isSignedIn } = useAuth();
 
   return (
     <header className="border-b bg-white">
@@ -46,21 +47,21 @@ export default function Navbar() {
             Wishlist
           </Link>
 
-          <SignedIn>
-            <Link href="/my-account" className="hover:text-primary">
-              Account
-            </Link>
-            <UserButton afterSignOutUrl="/" />
-          </SignedIn>
-
-          <SignedOut>
+          {isSignedIn ? (
+            <>
+              <Link href="/my-account" className="hover:text-primary">
+                Account
+              </Link>
+              <UserButton />
+            </>
+          ) : (
             <Link
               href="/sign-in"
               className="rounded-lg bg-primary px-4 py-2 text-white hover:bg-primary/90"
             >
               Sign In
             </Link>
-          </SignedOut>
+          )}
         </div>
       </nav>
     </header>

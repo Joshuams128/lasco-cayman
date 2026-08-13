@@ -12,6 +12,7 @@ interface ProductCardProps {
   salePrice?: number;
   imageUrl?: string;
   inStock: boolean;
+  categoryName?: string;
 }
 
 export default function ProductCard({
@@ -22,6 +23,7 @@ export default function ProductCard({
   salePrice,
   imageUrl,
   inStock,
+  categoryName,
 }: ProductCardProps) {
   const { addItem } = useCart();
 
@@ -38,48 +40,58 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group rounded-lg border bg-white p-4 transition-shadow hover:shadow-lg">
+    <div className="group overflow-hidden rounded-3xl border border-warm-border bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Link href={`/shop/${slug}`}>
-        <div className="relative aspect-square overflow-hidden rounded-md bg-accent">
+        <div className="relative aspect-square overflow-hidden bg-warm-gray/50">
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={name}
               fill
-              className="object-cover transition-transform group-hover:scale-105"
+              className="object-contain p-5 transition duration-500 group-hover:scale-110"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-400">
+            <div className="flex h-full items-center justify-center text-warm-border">
               No Image
             </div>
+          )}
+          {salePrice && (
+            <span className="absolute left-3 top-3 rounded-full bg-papaya px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+              Sale
+            </span>
           )}
         </div>
       </Link>
 
-      <div className="mt-3">
+      <div className="p-4">
+        {categoryName && (
+          <p className="text-[10px] font-bold uppercase tracking-widest text-sea">{categoryName}</p>
+        )}
         <Link href={`/shop/${slug}`}>
-          <h3 className="font-semibold hover:text-primary">{name}</h3>
+          <h3 className="mt-1 text-sm font-bold leading-snug text-charcoal hover:text-primary line-clamp-2">
+            {name}
+          </h3>
         </Link>
 
-        <div className="mt-1 flex items-center gap-2">
+        <div className="mt-2 flex items-center gap-2">
           {salePrice ? (
             <>
-              <span className="text-lg font-bold text-primary">
+              <span className="text-lg font-extrabold text-primary">
                 ${salePrice.toFixed(2)}
               </span>
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-sm text-warm-muted line-through">
                 ${price.toFixed(2)}
               </span>
             </>
           ) : (
-            <span className="text-lg font-bold">${price.toFixed(2)}</span>
+            <span className="text-lg font-extrabold text-primary">${price.toFixed(2)}</span>
           )}
         </div>
 
         <button
           onClick={handleAddToCart}
           disabled={!inStock}
-          className="mt-3 w-full rounded-lg bg-primary py-2 text-sm text-white hover:bg-primary/90 disabled:bg-gray-300"
+          className="mt-3 w-full rounded-xl bg-primary py-2.5 text-sm font-bold uppercase tracking-wide text-white shadow-sm transition hover:shadow-md hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
         >
           {inStock ? "Add to Cart" : "Out of Stock"}
         </button>

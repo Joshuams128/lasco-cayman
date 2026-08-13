@@ -26,7 +26,6 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
               <li><Link href="/shop" className="transition hover:text-primary">All Products</Link></li>
               <li><Link href="/commercials" className="transition hover:text-primary">Commercials</Link></li>
-              <li><Link href="/store-list" className="transition hover:text-primary">Store Locations</Link></li>
             </ul>
           </div>
 
@@ -45,7 +44,7 @@ export default function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40">Company</h4>
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
               <li><Link href="/about" className="transition hover:text-primary">About Us</Link></li>
-              <li><Link href="/blog" className="transition hover:text-primary">Blog</Link></li>
+              <li><Link href="/contact" className="transition hover:text-primary">Contact</Link></li>
             </ul>
           </div>
         </div>

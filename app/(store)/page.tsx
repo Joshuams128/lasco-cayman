@@ -21,6 +21,8 @@ interface Category {
   productCount: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sampleImage?: any;
 }
 
 interface SiteSettings {
@@ -54,7 +56,8 @@ async function getCategoriesWithCount() {
   return client.fetch<Category[]>(
     `*[_type == "category"] | order(name asc) {
       _id, name, slug, image,
-      "productCount": count(*[_type == "product" && category._ref == ^._id])
+      "productCount": count(*[_type == "product" && category._ref == ^._id]),
+      "sampleImage": *[_type == "product" && category._ref == ^._id && defined(images[0].asset)][0].images[0]
     }`
   );
 }
@@ -116,6 +119,7 @@ const VALUE_PROP_STYLES: Record<string, { bg: string; text: string }> = {
   papaya: { bg: "bg-papaya/10", text: "text-papaya" },
 };
 
+// Solid tiles for the rare case a category has no image at all
 const CATEGORY_TILES = [
   { bg: "bg-primary", text: "text-white", textMuted: "text-white/80" },
   { bg: "bg-sea", text: "text-white", textMuted: "text-white/80" },
@@ -123,6 +127,18 @@ const CATEGORY_TILES = [
   { bg: "bg-palm", text: "text-white", textMuted: "text-white/80" },
   { bg: "bg-papaya", text: "text-white", textMuted: "text-white/80" },
   { bg: "bg-primary-dark", text: "text-white", textMuted: "text-white/80" },
+];
+
+// Soft tinted backdrops behind an auto-picked product photo — the pattern
+// grocery sites (Instacart, Whole Foods, Amazon Fresh) use for "Shop by
+// Category": a product shot sitting on a pastel tile, with the label below.
+const CATEGORY_SOFT_TILES = [
+  "bg-primary/10",
+  "bg-sea/10",
+  "bg-sun/20",
+  "bg-palm/10",
+  "bg-papaya/10",
+  "bg-primary-dark/10",
 ];
 
 export default async function HomePage() {
@@ -186,43 +202,77 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {categories.map((cat, i) => {
+              // An explicit editor-uploaded category photo gets the rich
+              // full-bleed treatment; otherwise fall back to an
+              // auto-picked product photo shown grocery-style on a tinted
+              // tile, and finally to a plain color block if the category
+              // has no products with images yet.
+              const heroImageUrl = cat.image
+                ? urlFor(cat.image).width(600).height(750).url()
+                : null;
+              const productImageUrl = !heroImageUrl && cat.sampleImage
+                ? urlFor(cat.sampleImage).width(500).height(500).url()
+                : null;
               const tile = CATEGORY_TILES[i % CATEGORY_TILES.length];
-              const imageUrl = cat.image ? urlFor(cat.image).width(600).height(600).url() : null;
+              const softBg = CATEGORY_SOFT_TILES[i % CATEGORY_SOFT_TILES.length];
+
+              if (heroImageUrl) {
+                return (
+                  <Link
+                    key={cat._id}
+                    href={`/shop?category=${cat.slug.current}`}
+                    className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-3xl transition hover:-translate-y-1 hover:shadow-xl"
+                  >
+                    <Image
+                      src={heroImageUrl}
+                      alt={cat.name}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/20 to-transparent" />
+                    <div className="relative p-5">
+                      <h3 className="text-lg font-bold leading-tight text-white">{cat.name}</h3>
+                      <p className="mt-0.5 text-xs font-semibold text-white/80">
+                        {cat.productCount} {cat.productCount === 1 ? "product" : "products"}
+                      </p>
+                      <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-white opacity-0 transition group-hover:opacity-100">
+                        Browse →
+                      </span>
+                    </div>
+                  </Link>
+                );
+              }
 
               return (
                 <Link
                   key={cat._id}
                   href={`/shop?category=${cat.slug.current}`}
-                  className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-3xl transition hover:-translate-y-1 hover:shadow-xl"
+                  className="group flex flex-col overflow-hidden rounded-3xl border border-warm-border bg-white transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  {imageUrl ? (
-                    <>
+                  <div className={`relative aspect-square ${productImageUrl ? softBg : tile.bg}`}>
+                    {productImageUrl ? (
                       <Image
-                        src={imageUrl}
+                        src={productImageUrl}
                         alt={cat.name}
                         fill
-                        className="object-cover transition duration-500 group-hover:scale-110"
+                        className="object-contain p-7 transition duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/20 to-transparent" />
-                    </>
-                  ) : (
-                    <div className={`absolute inset-0 ${tile.bg}`}>
-                      <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
-                      <div className="absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-black/10" />
-                    </div>
-                  )}
-                  <div className="relative p-5">
-                    <h3 className={`text-lg font-bold leading-tight ${imageUrl ? "text-white" : tile.text}`}>
-                      {cat.name}
-                    </h3>
-                    <p className={`mt-0.5 text-xs font-semibold ${imageUrl ? "text-white/80" : tile.textMuted}`}>
+                    ) : (
+                      <>
+                        <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
+                        <div className="absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-black/10" />
+                        <div className={`flex h-full items-center justify-center text-3xl font-black ${tile.text}`}>
+                          {cat.name.charAt(0)}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-sm font-bold leading-tight text-charcoal">{cat.name}</h3>
+                    <p className="mt-0.5 text-xs font-medium text-warm-muted">
                       {cat.productCount} {cat.productCount === 1 ? "product" : "products"}
                     </p>
-                    <span
-                      className={`mt-3 inline-flex items-center gap-1 text-xs font-bold opacity-0 transition group-hover:opacity-100 ${
-                        imageUrl ? "text-white" : tile.text
-                      }`}
-                    >
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-primary opacity-0 transition group-hover:opacity-100">
                       Browse →
                     </span>
                   </div>

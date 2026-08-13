@@ -21,9 +21,9 @@ export default function Navbar() {
   const navLinks = [
     { href: "/shop", label: "Shop" },
     { href: "/about", label: "About" },
-    { href: "/blog", label: "Blog" },
-    { href: "/store-list", label: "Stores" },
+    { href: "/commercials", label: "Commercials" },
     { href: "/faq", label: "FAQ" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (

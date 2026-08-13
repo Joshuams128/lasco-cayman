@@ -19,13 +19,15 @@ export default function CategoryFilter({
 }: CategoryFilterProps) {
   return (
     <div>
-      <h3 className="mb-4 text-lg font-semibold">Categories</h3>
-      <ul className="space-y-2">
+      <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-warm-muted">Categories</h3>
+      <ul className="space-y-1">
         <li>
           <button
             onClick={() => onSelect(undefined)}
-            className={`w-full text-left hover:text-primary ${
-              !selectedSlug ? "font-bold text-primary" : ""
+            className={`block w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+              !selectedSlug
+                ? "bg-primary font-semibold text-white shadow-sm"
+                : "text-charcoal/70 hover:bg-warm-gray hover:text-charcoal"
             }`}
           >
             All Products
@@ -35,10 +37,10 @@ export default function CategoryFilter({
           <li key={cat._id}>
             <button
               onClick={() => onSelect(cat.slug.current)}
-              className={`w-full text-left hover:text-primary ${
+              className={`block w-full rounded-xl px-3 py-2 text-left text-sm transition ${
                 selectedSlug === cat.slug.current
-                  ? "font-bold text-primary"
-                  : ""
+                  ? "bg-primary font-semibold text-white shadow-sm"
+                  : "text-charcoal/70 hover:bg-warm-gray hover:text-charcoal"
               }`}
             >
               {cat.name}

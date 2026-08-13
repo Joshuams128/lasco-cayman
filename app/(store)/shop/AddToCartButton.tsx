@@ -40,7 +40,7 @@ export default function AddToCartButton({
     return (
       <button
         onClick={handleAdd}
-        className={`flex h-9 w-9 items-center justify-center rounded-full text-lg font-bold text-white shadow-md transition duration-200 hover:scale-110 ${added ? "bg-emerald-500" : "bg-primary hover:bg-primary/90"}`}
+        className={`flex h-9 w-9 items-center justify-center rounded-full text-lg font-bold text-white shadow-md transition duration-200 hover:scale-110 ${added ? "bg-palm" : "bg-primary hover:bg-primary/90"}`}
       >
         {added ? "\u2713" : "+"}
       </button>
@@ -51,7 +51,7 @@ export default function AddToCartButton({
     <button
       onClick={() => handleAdd()}
       disabled={!inStock}
-      className={`rounded-xl px-8 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-sm transition duration-200 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 ${added ? "bg-emerald-500" : "bg-primary hover:bg-primary/90"}`}
+      className={`rounded-xl px-8 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-sm transition duration-200 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 ${added ? "bg-palm" : "bg-primary hover:bg-primary/90"}`}
     >
       {!inStock ? "Out of Stock" : added ? "\u2713 Added to Cart" : "Add to Cart"}
     </button>

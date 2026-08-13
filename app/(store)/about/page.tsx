@@ -4,9 +4,12 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero Banner */}
-      <section className="bg-primary py-16 text-white">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <h1 className="text-4xl font-bold">About LASCO Cayman</h1>
+      <section className="relative overflow-hidden bg-charcoal py-16 text-white">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-charcoal to-sea/20" />
+        <div className="absolute -left-16 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-papaya/10 blur-3xl animate-blob-float" />
+        <div className="relative mx-auto max-w-4xl px-4 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-sun">Since 2005</p>
+          <h1 className="mt-2 font-display text-4xl font-extrabold">About LASCO Cayman</h1>
           <p className="mt-3 text-lg text-white/80">
             Exclusive distributors of LASCO products in the Cayman Islands since 2005
           </p>
@@ -49,35 +52,35 @@ export default function AboutPage() {
         <section className="mb-16">
           <h2 className="mb-8 text-center text-2xl font-bold text-gray-900">What We Stand For</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border bg-white p-6">
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <div className="rounded-2xl border border-warm-border bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-sea/10 text-sea">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Quality First</h3>
-              <p className="mt-2 text-sm text-gray-600">
+              <h3 className="text-lg font-bold text-charcoal">Quality First</h3>
+              <p className="mt-2 text-sm text-charcoal/70">
                 Every product we carry meets the highest standards. As exclusive LASCO distributors,
                 we ensure authenticity and freshness across every item we stock.
               </p>
             </div>
 
-            <div className="rounded-xl border bg-white p-6">
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <div className="rounded-2xl border border-warm-border bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-papaya/10 text-papaya">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Community</h3>
-              <p className="mt-2 text-sm text-gray-600">
+              <h3 className="text-lg font-bold text-charcoal">Community</h3>
+              <p className="mt-2 text-sm text-charcoal/70">
                 We are deeply involved in the Cayman Islands community &mdash; sponsoring the SDA
                 Annual 10K Run, the Winds of Hope 5K, and supporting a Children&apos;s Home, a Drug
                 Rehabilitation Center, and the George Town Soup Kitchen for over 10 years.
               </p>
             </div>
 
-            <div className="rounded-xl border bg-white p-6">
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <div className="rounded-2xl border border-warm-border bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-palm/10 text-palm">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Accessibility</h3>
-              <p className="mt-2 text-sm text-gray-600">
+              <h3 className="text-lg font-bold text-charcoal">Accessibility</h3>
+              <p className="mt-2 text-sm text-charcoal/70">
                 Due to consumer demand for wholesale quantities, we launched this online store. We
                 sell in minimums of 6 units with free delivery on orders over CI$99. Pay by card or
                 on delivery.
@@ -87,30 +90,30 @@ export default function AboutPage() {
         </section>
 
         {/* Stats */}
-        <section className="rounded-2xl bg-gray-50 p-8">
+        <section className="rounded-2xl bg-warm-gray p-8">
           <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
             <div>
-              <p className="text-3xl font-bold text-primary">20+</p>
-              <p className="mt-1 text-sm text-gray-600">Years in Operation</p>
+              <p className="font-display text-3xl font-extrabold text-primary">20+</p>
+              <p className="mt-1 text-sm text-charcoal/70">Years in Operation</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-primary">20+</p>
-              <p className="mt-1 text-sm text-gray-600">Retail Partners</p>
+              <p className="font-display text-3xl font-extrabold text-sea">20+</p>
+              <p className="mt-1 text-sm text-charcoal/70">Retail Partners</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-primary">50+</p>
-              <p className="mt-1 text-sm text-gray-600">Products Available</p>
+              <p className="font-display text-3xl font-extrabold text-papaya">50+</p>
+              <p className="mt-1 text-sm text-charcoal/70">Products Available</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-primary">1000+</p>
-              <p className="mt-1 text-sm text-gray-600">Happy Customers</p>
+              <p className="font-display text-3xl font-extrabold text-palm">1000+</p>
+              <p className="mt-1 text-sm text-charcoal/70">Happy Customers</p>
             </div>
           </div>
         </section>
       </div>
 
       {/* Get In Touch */}
-      <section className="bg-primary py-14">
+      <section className="bg-gradient-to-br from-primary via-primary-dark to-papaya-dark py-14">
         <div className="mx-auto max-w-3xl px-4 text-center text-white">
           <h2 className="text-3xl font-bold">Get In Touch</h2>
           <p className="mt-2 text-white/80">We operate exclusively in the Cayman Islands.</p>
@@ -146,6 +149,13 @@ export default function AboutPage() {
               </a>
             </div>
           </div>
+
+          <a
+            href="/contact"
+            className="mt-9 inline-block rounded-full bg-white px-8 py-3 text-sm font-bold text-primary transition hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Visit our Contact Page →
+          </a>
         </div>
       </section>
     </div>

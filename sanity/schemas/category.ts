@@ -18,5 +18,18 @@ export const category = defineType({
       options: { source: "name", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "image",
+      title: "Image",
+      description: "Optional photo shown on the homepage category card. Falls back to a colored tile if left empty.",
+      type: "image",
+      options: { hotspot: true },
+    }),
   ],
+  preview: {
+    select: {
+      title: "name",
+      media: "image",
+    },
+  },
 });

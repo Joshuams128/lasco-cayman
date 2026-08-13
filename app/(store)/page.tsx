@@ -29,8 +29,15 @@ interface SiteSettings {
   heroSlides?: Array<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image?: any;
+    eyebrow?: string;
     heading?: string;
     subheading?: string;
+    chips?: string[];
+    theme?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    products?: any[];
   }>;
 }
 
@@ -152,11 +159,20 @@ export default async function HomePage() {
   const displayProducts = featured.length > 0 ? featured : latest;
 
   const heroSlides: HeroSlideData[] | undefined = settings?.heroSlides
-    ?.filter((s) => s.image || s.heading)
+    ?.filter((s) => s.heading || s.image || (s.products && s.products.length > 0))
     .map((s) => ({
       imageUrl: s.image ? urlFor(s.image).width(1800).height(900).url() : undefined,
+      eyebrow: s.eyebrow,
       heading: s.heading,
       subheading: s.subheading,
+      chips: s.chips,
+      theme: s.theme,
+      ctaLabel: s.ctaLabel,
+      ctaHref: s.ctaHref,
+      products: s.products?.map((p, i) => ({
+        src: urlFor(p).width(900).url(),
+        alt: s.heading ? `${s.heading} product ${i + 1}` : "LASCO product",
+      })),
     }));
 
   return (

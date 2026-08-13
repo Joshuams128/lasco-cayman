@@ -8,16 +8,18 @@ export const siteSettings = defineType({
     defineField({
       name: "heroSlides",
       title: "Hero Slides",
+      description:
+        "Leave empty to use the three built-in slides. Product images should be transparent PNG/WebP cutouts.",
       type: "array",
       of: [
         {
           type: "object",
           fields: [
             defineField({
-              name: "image",
-              title: "Image",
-              type: "image",
-              options: { hotspot: true },
+              name: "eyebrow",
+              title: "Eyebrow",
+              description: "Small label above the headline, e.g. 'Pantry Staples'.",
+              type: "string",
             }),
             defineField({
               name: "heading",
@@ -27,9 +29,63 @@ export const siteSettings = defineType({
             defineField({
               name: "subheading",
               title: "Subheading",
+              type: "text",
+              rows: 2,
+            }),
+            defineField({
+              name: "chips",
+              title: "Feature Chips",
+              description: "Short claims shown as pills, e.g. 'Free delivery over CI$99'.",
+              type: "array",
+              of: [{ type: "string" }],
+              options: { layout: "tags" },
+            }),
+            defineField({
+              name: "theme",
+              title: "Colour Theme",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Magenta", value: "magenta" },
+                  { title: "Sea / Teal", value: "sea" },
+                  { title: "Sun / Orange", value: "sun" },
+                ],
+                layout: "radio",
+              },
+              initialValue: "magenta",
+            }),
+            defineField({
+              name: "products",
+              title: "Product Cutouts",
+              description:
+                "Up to 4 transparent product images, shown staggered beside the text.",
+              type: "array",
+              of: [{ type: "image", options: { hotspot: true } }],
+              validation: (Rule) => Rule.max(4),
+            }),
+            defineField({
+              name: "ctaLabel",
+              title: "Button Label",
               type: "string",
             }),
+            defineField({
+              name: "ctaHref",
+              title: "Button Link",
+              type: "string",
+              initialValue: "/shop",
+            }),
+            defineField({
+              name: "image",
+              title: "Background Photo (optional)",
+              description:
+                "Only set this if you want a full-bleed photo instead of the colour theme.",
+              type: "image",
+              options: { hotspot: true },
+            }),
           ],
+          preview: {
+            select: { title: "heading", subtitle: "eyebrow", media: "products.0" },
+          },
         },
       ],
     }),

@@ -113,7 +113,7 @@ const DEFAULT_SLIDES: HeroSlideData[] = [
     ctaHref: "/shop",
     theme: "sun",
     products: [
-      { src: "/products/lasco-butter-beans.webp", alt: "LASCO Butter Beans" },
+      { src: "/products/baked-beans.webp", alt: "LASCO Baked Beans in tomato sauce" },
       { src: "/products/sweet-corn.webp", alt: "LASCO Sweet Corn" },
       { src: "/products/red-kidney-beans.webp", alt: "LASCO Red Kidney Beans" },
     ],
@@ -122,14 +122,21 @@ const DEFAULT_SLIDES: HeroSlideData[] = [
 
 /**
  * Staggered placement so the products read as a group, not a row.
+ *
  * Sized by HEIGHT rather than width: the packshots have wildly different
  * aspect ratios (tall sachets vs. squat cereal tins), and matching widths
  * would render the landscape ones visibly undersized.
+ *
+ * Count scales down with the viewport — three products crammed into a phone
+ * width shrinks each one below the point where the label is readable:
+ *   < 640px  2 products
+ *   ≥ 640px  3 products
+ *   ≥ 1024px 4 products (when a 4th is supplied)
  */
 const PRODUCT_LAYOUT = [
-  "z-10 h-[210px] flex-1 translate-y-5 lg:h-[260px]",
-  "z-20 h-[260px] flex-1 -translate-y-2 lg:h-[320px]",
-  "z-10 h-[210px] flex-1 translate-y-7 lg:h-[260px]",
+  "z-10 h-[140px] flex-1 translate-y-3 sm:h-[170px] sm:translate-y-5 md:h-[210px] lg:h-[260px]",
+  "z-20 h-[176px] flex-1 -translate-y-1 sm:h-[205px] sm:-translate-y-2 md:h-[260px] lg:h-[320px]",
+  "z-10 hidden h-[140px] flex-1 translate-y-4 sm:block sm:h-[170px] sm:translate-y-7 md:h-[210px] lg:h-[260px]",
   "z-0 hidden h-[180px] flex-1 translate-y-10 lg:block lg:h-[220px]",
 ];
 
@@ -156,7 +163,7 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
   }, [next]);
 
   return (
-    <section className="relative h-[620px] w-full overflow-hidden sm:h-[640px] md:h-[600px]">
+    <section className="relative h-[640px] w-full overflow-hidden md:h-[600px]">
       {displaySlides.map((slide, i) => {
         const theme = THEMES[slide.theme || "magenta"] || THEMES.magenta;
         const active = i === current;
@@ -194,7 +201,7 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
             )}
 
             <div className="relative mx-auto flex h-full max-w-7xl items-center px-4">
-              <div className="grid w-full items-center gap-6 md:grid-cols-2">
+              <div className="grid w-full items-center gap-5 sm:gap-6 md:grid-cols-2">
                 {/* Copy */}
                 <div className="max-w-xl text-center md:text-left">
                   {slide.eyebrow && (
@@ -205,21 +212,21 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
                     </p>
                   )}
                   <h1
-                    className={`mt-2 font-display text-4xl font-extrabold leading-[1.05] drop-shadow-sm sm:text-5xl md:text-6xl ${theme.heading} ${
+                    className={`mt-2 font-display text-3xl font-extrabold leading-[1.05] drop-shadow-sm sm:text-4xl md:text-5xl lg:text-6xl ${theme.heading} ${
                       active ? "animate-fade-up" : ""
                     }`}
                   >
                     {slide.heading}
                   </h1>
                   {slide.subheading && (
-                    <p className={`mx-auto mt-4 max-w-md text-sm sm:text-base md:mx-0 ${theme.body}`}>
+                    <p className={`mx-auto mt-3 max-w-md text-sm sm:mt-4 sm:text-base md:mx-0 ${theme.body}`}>
                       {slide.subheading}
                     </p>
                   )}
 
                   {/* Claim chips — real HTML, so they stay crisp and reflow */}
                   {slide.chips && slide.chips.length > 0 && (
-                    <div className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
+                    <div className="mt-4 flex flex-wrap justify-center gap-2 sm:mt-5 md:justify-start">
                       {slide.chips.map((c) => (
                         <span
                           key={c}
@@ -231,16 +238,16 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
                     </div>
                   )}
 
-                  <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8 md:justify-start">
                     <Link
                       href={slide.ctaHref || "/shop"}
-                      className="rounded-full bg-white px-8 py-3.5 text-sm font-bold text-charcoal shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+                      className="rounded-full bg-white px-6 py-3 text-sm font-bold text-charcoal shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl sm:px-8 sm:py-3.5"
                     >
                       {slide.ctaLabel || "Shop Now"}
                     </Link>
                     <Link
                       href="#categories"
-                      className={`rounded-full border-2 px-8 py-3.5 text-sm font-bold transition ${theme.outlineBtn}`}
+                      className={`rounded-full border-2 px-6 py-3 text-sm font-bold transition sm:px-8 sm:py-3.5 ${theme.outlineBtn}`}
                     >
                       Browse Categories
                     </Link>
@@ -249,7 +256,7 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
 
                 {/* Product cutouts */}
                 {products.length > 0 && (
-                  <div className="hidden items-end justify-center gap-2 md:flex">
+                  <div className="mx-auto flex w-full max-w-[300px] items-end justify-center gap-2 sm:max-w-none">
                     {products.slice(0, 4).map((p, pi) => (
                       <div
                         key={p.src}
@@ -262,7 +269,7 @@ export default function HeroSlider({ slides }: { slides?: HeroSlideData[] }) {
                           src={p.src}
                           alt={p.alt}
                           fill
-                          sizes="(max-width: 768px) 0px, 20vw"
+                          sizes="(max-width: 640px) 40vw, (max-width: 1024px) 25vw, 20vw"
                           priority={i === 0 && pi < 2}
                           className="object-contain drop-shadow-2xl"
                         />

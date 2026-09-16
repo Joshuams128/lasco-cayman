@@ -34,23 +34,23 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between rounded-lg border p-4"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-4"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex min-w-0 items-center gap-4">
                   {item.image && (
                     <Image
                       src={item.image}
                       alt={item.name}
                       width={60}
                       height={60}
-                      className="rounded-lg object-contain"
+                      className="shrink-0 rounded-lg object-contain"
                     />
                   )}
-                  <span>
+                  <span className="min-w-0 break-words">
                     {item.name} x {item.quantity}
                   </span>
                 </div>
-                <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="shrink-0 font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>

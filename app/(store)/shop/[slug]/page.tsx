@@ -153,7 +153,7 @@ export default async function ProductDetailPage({
             </p>
 
             {/* Buttons */}
-            <div className="mt-8 flex gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <AddToCartButton
                 product={{
                   id: product._id,

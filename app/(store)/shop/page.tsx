@@ -159,15 +159,15 @@ export default async function ShopPage({
                             </div>
                           )}
 
-                          {/* Quick View overlay */}
-                          <div className="absolute bottom-0 left-0 right-0 translate-y-full bg-gradient-to-t from-charcoal/90 to-charcoal/70 py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white transition-transform duration-300 group-hover:translate-y-0">
+                          {/* Quick View overlay (desktop hover only) */}
+                          <div className="absolute bottom-0 left-0 right-0 hidden translate-y-full bg-gradient-to-t from-charcoal/90 to-charcoal/70 py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white transition-transform duration-300 group-hover:translate-y-0 md:block">
                             Quick View
                           </div>
                         </div>
                       </Link>
 
                       {/* Product Info */}
-                      <Link href={`/shop/${product.slug.current}`} className="block px-4 pb-4 pt-3">
+                      <Link href={`/shop/${product.slug.current}`} className="block px-4 pb-3 pt-3">
                         {product.category && (
                           <p className="text-[10px] font-bold uppercase tracking-widest text-sea">
                             {product.category.name}
@@ -194,9 +194,26 @@ export default async function ShopPage({
                         </div>
                       </Link>
 
-                      {/* Hover Add to Cart - overlay on image area */}
+                      {/* Always-visible Add to Cart on mobile/touch, where hover never fires */}
                       {product.inStock && (
-                        <div className="pointer-events-none absolute inset-x-0 top-0 aspect-square">
+                        <div className="px-4 pb-4 md:hidden">
+                          <AddToCartButton
+                            product={{
+                              id: product._id,
+                              name: product.name,
+                              price: product.salePrice || product.price,
+                              image: imageUrl || "",
+                              slug: product.slug.current,
+                            }}
+                            variant="full"
+                            className="w-full"
+                          />
+                        </div>
+                      )}
+
+                      {/* Hover Add to Cart - overlay on image area (desktop only) */}
+                      {product.inStock && (
+                        <div className="pointer-events-none absolute inset-x-0 top-0 hidden aspect-square md:block">
                           <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 pointer-events-auto">
                             <AddToCartButton
                               product={{
@@ -207,6 +224,7 @@ export default async function ShopPage({
                                 slug: product.slug.current,
                               }}
                               variant="full"
+                              className="w-full"
                             />
                           </div>
                         </div>

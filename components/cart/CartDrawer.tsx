@@ -24,7 +24,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
       {/* Drawer */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-96 transform bg-white shadow-xl transition-transform ${
+        className={`fixed right-0 top-0 z-50 h-full w-full max-w-sm transform bg-white shadow-xl transition-transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

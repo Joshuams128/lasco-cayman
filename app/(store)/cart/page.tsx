@@ -29,9 +29,9 @@ export default function CartPage() {
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between rounded-lg border p-4"
+            className="flex flex-col gap-4 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 min-w-0">
               {item.image && (
                 <Link href={`/shop/${item.slug}`} className="shrink-0">
                   <Image
@@ -43,7 +43,7 @@ export default function CartPage() {
                   />
                 </Link>
               )}
-              <div>
+              <div className="min-w-0">
                 <Link href={`/shop/${item.slug}`} className="font-semibold hover:text-primary">
                   {item.name}
                 </Link>
